@@ -1,0 +1,73 @@
+paths:
+
+  /api/product:
+    get:
+      summary: Obtener todos los productos de la base de datos
+      tags: 
+        - products
+      responses:
+        "200":
+          description: Si la consulta a los productos es satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/productsResponse'
+        "500":
+          description: Si hubo un error al momento de la consulta
+
+    post:
+      summary: crear un producto en  la base de datos
+      tags: 
+        - products
+      responses:
+        "200":
+          description: Si la creacion de un producto es satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/productsResponse'
+        "500":
+          description: Si hubo un error al momento de la consulta
+
+  /api/product/{productId}:
+    get:
+      summary: Obtener un producto de la base de datos
+      tags: 
+        - products
+      responses:
+        "200":
+          description: Si la consulta al producto es satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/productsResponse'
+        "500":
+          description: Si hubo un error al momento de la consulta
+
+components:
+  schemas:
+    product:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autoincremental MongoDB
+        title:
+          type: string
+          description: productos
+        description:
+          type: string
+          description: descripcion
+    productsResponse:
+      type: Object
+      properties: 
+        status:
+          type: string
+          enum: [success, error]
+          description: formas de respuesta
+        payload:
+          type: array
+          description: array de productos
+          item:
+            $ref: '#components/schemas/product'
+

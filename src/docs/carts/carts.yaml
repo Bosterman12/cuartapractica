@@ -1,0 +1,56 @@
+paths:
+
+  /api/cart:
+    get:
+      summary: Obtener todos los carritos de la base de datos
+      tags: 
+        - carts
+      responses:
+        "200":
+          description: Si la consulta a los carritos es satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/cartsResponse'
+        "500":
+          description: Si hubo un error al momento de la consulta
+
+    post:
+      summary: crear un carrito en la base de datos
+      tags: 
+        - carts
+      responses:
+        "200":
+          description: Si la creacion del carrito es satisfactoria
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/cartsResponse'
+        "500":
+          description: Si hubo un error al momento de la consulta
+components:
+  schemas:
+    cart:
+      type: Object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autoincremental MongoDB
+        title:
+          type: string
+          description: carritos
+        description:
+          type: string
+          description: descripcion
+    cartsResponse:
+      type: Object
+      properties: 
+        status:
+          type: string
+          enum: [success, error]
+          description: formas de respuesta
+        payload:
+          type: array
+          description: array de carritos
+          item:
+            $ref: '#components/schemas/cart'

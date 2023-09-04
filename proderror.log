@@ -1,0 +1,25 @@
+{"level":"fatal","message":"GET en /logger - 20:04:49"}
+{"level":"warning","message":"Alerta"}
+{"level":"fatal","message":"GET en /favicon.ico - 20:04:49"}
+{"level":"fatal","message":"GET en /api/css/styles.css - 20:32:21"}
+{"level":"fatal","message":"GET en /api/js/main.js - 20:32:22"}
+{"level":"fatal","message":"GET en /api/css/styles.css - 20:34:59"}
+{"level":"fatal","message":"GET en /api/js/main.js - 20:34:59"}
+{"level":"fatal","message":"GET en /logger - 20:52:40"}
+{"level":"warning","message":"Alerta"}
+{"level":"fatal","message":"GET en /api/errorlogin - 20:56:55"}
+{"level":"fatal","message":"GET en /api/css/styles.css - 20:56:56"}
+{"level":"fatal","message":"GET en /api/js/main.js - 20:56:56"}
+{"level":"info","message":"GET en /api/css/styles.css - 21:13:39"}
+{"level":"info","message":"GET en /api/js/main.js - 21:13:40"}
+{"level":"info","message":"GET en /api/css/styles.css - 21:15:04"}
+{"level":"info","message":"GET en /api/js/main.js - 21:15:04"}
+{"level":"info","message":"GET en /api/css/styles.css - 21:17:56"}
+{"level":"info","message":"GET en /api/js/main.js - 21:17:56"}
+{"level":"info","message":"GET en /api/css/styles.css - 21:18:13"}
+{"level":"info","message":"GET en /api/js/main.js - 21:18:13"}
+{"level":"info","message":"GET en /api/js/main.js - 21:21:43"}
+{"level":"info","message":"GET en /api/css/styles.css - 21:21:43"}
+{"level":"info","message":"GET en /favicon.ico - 22:14:04"}
+{"level":"info","message":"GET en /api/css/styles.css - 22:14:14"}
+{"level":"info","message":"GET en /api/js/main.js - 22:14:14"}
