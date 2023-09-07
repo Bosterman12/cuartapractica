@@ -1,11 +1,21 @@
+<div class="d-flex flex-wrap">
+   
+    <div class='col-md-3 mx-2 my-3 r' >                                 
+                <div class="card w-100 mt-5" >
+                        <div class="card-header text-white bg-dark">
+                            {{title}} 
+                        </div> 
+                        <div class="card-body">
+                            <img src= {{tumbnail}}  style=' width:280px;height:200px;' class="card-img" >  
+                            <br />
+                            Price:  $  {{price}}   
+                            <br />
+                            Stock : {{stock}}  
+                        </div>                                                                                   
+                </div>
+    <button onclick="window.location.href='/api/product/{{_id}}' " class="btn btn-primary ps-3">Agregar al carrito</button>
+    </div>
+    
 
-<div>
-    <p>{{title}}</p>
-    <p>{{description}}</p>
-    <p>{{code}}</p>
-    <p>{{category}} </p>
-    <p>{{price}} </p>
-    <p>{{stock}}</p>
-    <p>{{status}} </p>
-    <p>{{thumbnail}} </p>
+
 </div>

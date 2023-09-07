@@ -16,7 +16,7 @@ export default class userManager {
 
     async findOneByid(id){
         try{
-            const user = await userModel.findById(id)
+            const user = await userModel.findOne(id)
             return user
     
         }catch(error) {

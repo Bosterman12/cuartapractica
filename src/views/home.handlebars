@@ -21,14 +21,16 @@
                             {{title}} 
                         </div> 
                         <div class="card-body">
-                            <img src= {{tumbnail}}  style=' width:280px;height:200px;' >  
+                            <img src= {{tumbnail}}  style=' width:280px;height:200px;' class="card-img" >  
                             <br />
                             Price:  $  {{price}}   
                             <br />
                             Stock : {{stock}}  
                         </div>                                                                                   
                 </div>
+       <button onclick="window.location.href='/api/product/{{_id}}' " class="btn btn-primary ps-3">Ver producto</button>
     </div>
+
     {{/each}}
 
 </div>

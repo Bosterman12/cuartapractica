@@ -2,7 +2,7 @@
     res.send({ status : 'success', message: 'Usuario creado'})
 }*/
 
-import { findAll, findOne, createOne } from "../services/users.services.js";
+import { findAll, findOne, createOne, updateOne } from "../services/users.services.js";
 
 export const findAllUsers = async (req,res) => {
     try{
@@ -21,6 +21,7 @@ export const findAllUsers = async (req,res) => {
 export const findOneUser = async (req,res) => {
 
     const {id} = req.params
+   
     try{
         const user = await findOne(id)
         if(user) {
@@ -46,3 +47,30 @@ export const createOneUser = async (req, res) => {
       res.status(500).json({ error })
     }
   }
+
+  export const updateOneUser = async (req,res) => {
+   
+    req.session.user = {
+        id : req.user.id,
+        first_name: req.user.first_name,
+        last_name: req.user.last_name,
+        gender: req.user.gender,
+        email: req.user.email,
+        role: req.user.role,
+        cart: req.user.cart,
+        last_connection : new Date()
+        
+      }
+    const {first_name, last_name, gender, email, role, cart, last_connection} = req.session.user
+    try {
+       
+        
+            const updateUser = await updateOne({_id:id},{first_name, last_name, gender, email, role, cart, last_connection})
+        res.status(200).json({ message: 'User updated', user: updateUser })
+        
+        
+        
+    } catch(error) {
+        res.status(500).json({ error })
+    }
+}

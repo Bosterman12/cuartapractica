@@ -33,11 +33,22 @@ export const findAllProd = async (req,res) => {
 export const findOneprod = async (req,res) => {
 
     const {id} = req.params
+    
     try{
-        const user = await findOneProductByid(id)
-        if(user) {
-            res.status(200).json({message: "product found", product:id})
-
+        const product = await findOneProductByid(id)
+        console.log(product)
+        if(product) {
+            //res.status(200).json({message: "product found", product:id})
+            res.render('product', {
+                title: product.title,
+                price: product.price,
+                stock: product.stock,
+                tumbnail: product.tumbnail,
+              
+               
+                //product : product,
+    
+                })
         }else{
             res.status(400).json({message: "no product"})
         }

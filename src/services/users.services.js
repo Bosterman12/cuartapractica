@@ -16,7 +16,7 @@ export const findAll = async ()=> {
 
 export const findOne = async (id)=> {
     try{
-        const user = await usersManager.findById(id)
+        const user = await usersManager.findOneById(id)
         return user
     }catch(error) {
         return error
@@ -29,6 +29,15 @@ export const createOne = async (obj)=> {
         const newObj = {...obj, password : hashPassword}
         const newUser = await usersManager.createOne(newObj)
         return newUser
+    }catch(error) {
+        return error
+    }
+}
+
+export const updateOne = async (id, obj)=> {
+    try{
+        const user = await usersManager.updateOne(id, obj)
+        return user
     }catch(error) {
         return error
     }
