@@ -470,3 +470,16 @@
 {"level":"info","message":"GET en /api/css/styles.css - 22:18:24"}
 {"level":"info","message":"GET en /api/style=' - 22:18:24"}
 {"level":"info","message":"GET en /api/js/main.js - 22:18:25"}
+{"level":"info","message":"GET en /api/css/styles.css - 22:19:24"}
+{"level":"info","message":"GET en /api/style=' - 22:19:24"}
+{"level":"info","message":"GET en /api/js/main.js - 22:19:24"}
+{"level":"info","message":"GET en /api/css/styles.css - 22:21:02"}
+{"level":"info","message":"GET en /api/js/main.js - 22:21:02"}
+{"level":"info","message":"GET en /api/style=' - 22:21:02"}
+{"level":"info","message":"GET en /static - 18:48:38"}
+{"level":"info","message":"GET en /static/ - 18:52:23"}
+{"level":"info","message":"GET en /api/css/styles.css - 18:54:03"}
+{"level":"info","message":"GET en /api/js/main.js - 18:54:03"}
+{"level":"info","message":"GET en /api/style=' - 18:54:03"}
+{"level":"info","message":"GET en /static/ - 18:54:21"}
+{"level":"info","message":"POST en /user/upload/uploadProfile - 23:02:54"}

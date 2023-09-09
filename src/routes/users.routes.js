@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 //import { createUser } from "../controllers/users.controller.js";
 import { findOneUser, findAllUsers, createOneUser } from "../controllers/users.controller.js";
+import { upload, uploadProfile, uploadDocument} from "../controllers/multer.controller.js";
+import multer from "multer";
 
 const userRouter = Router()
 
@@ -38,5 +40,29 @@ userRouter.get(
 userRouter.get('/',findAllUsers)
 userRouter.get('/:id', findOneUser)
 //userRouter.post('/register', createOneUser)
+
+userRouter.post('/documents/uploadProduct', upload.single('product'), (req, res) => {
+  console.log(req.body)
+  console.log(req.file.fieldname)
+  res.send("imagen subida")
+  const typeFile = req.file.fieldname
+    console.log(typeFile)
+})
+
+userRouter.post('/documents/uploadDocument', uploadDocument.single('document'), (req, res) => {
+  console.log(req.body)
+  console.log(req.file.fieldname)
+  res.send("documento subido")
+  const typeFile = req.file.fieldname
+    console.log(typeFile)
+})
+
+userRouter.post('/documents/uploadProfile', uploadProfile.single('profile'), (req, res) => {
+  console.log(req.body)
+  console.log(req.file.fieldname)
+  res.send("perfil subido")
+  const typeFile = req.file.fieldname
+    console.log(typeFile)
+})
 
 export default userRouter

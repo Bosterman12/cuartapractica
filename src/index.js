@@ -43,14 +43,14 @@ import swaggerUiExpress from 'swagger-ui-express'
 
 const app = express()
 const PORT = config.PORT
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'src/public/img')
     },
     filename: (req, file, cb) => {
         cb(null, `${file.originalname}`)
     }
-}) 
+}) */
 
 
 const swaggerOptions = {
@@ -104,8 +104,8 @@ app.set('views', path.resolve(__dirname, './views'))
 //Middleware
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
-const upload = (multer({storage:storage}))
+app.use('/static', express.static(__dirname + '/public'))
+//const upload = (multer({storage:storage}))
 app.use(cookieParser(config.COOKIE_SECRET))
 app.use(cors())
 
@@ -209,11 +209,11 @@ app.get('/session', (req, res) =>{
 
 
 
-app.post('/upload', upload.single('product'), (req, res) => {
+/*app.post('/upload', upload.single('product'), (req, res) => {
     console.log(req.body)
     console.log(req.file)
     res.send("imagen subida")
-})
+})*/
 
 app.use('/api/message', messagesRouter)
 app.use('/api/product', productRouter)
