@@ -40,11 +40,13 @@ export const findOneprod = async (req,res) => {
         if(product) {
             //res.status(200).json({message: "product found", product:id})
             res.render('product', {
+                id: product.id,
                 title: product.title,
+                description : product.description,
                 price: product.price,
                 stock: product.stock,
                 tumbnail: product.tumbnail,
-              
+                user: req.session.user
                
                 //product : product,
     

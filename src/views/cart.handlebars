@@ -1,0 +1,17 @@
+
+{{>navbar}}
+<div class="ps-2">
+    <p>Bienvenido : {{user.first_name}} </p>   
+    <p>email : {{user.email}} </p>
+    <p>Rol: {{user.role}} </p>
+    <p>cart : {{user.cart}} </p>
+</div>
+
+
+
+<form action= "../session/logout" method="get">
+        <input  class="btn btn-danger ps-3 " type="submit" value="Logout">
+</form>
+{{cart}}
+{{products}}
+   

@@ -11,7 +11,9 @@ userRouter.get('/register', async (req, res) =>{
     res.render('sessions/register')
 })
 
-userRouter.post('/register', passport.authenticate('register'), createOneUser)
+userRouter.post('/register', passport.authenticate('register',{
+  failureRedirect: '../api/errorSignup',
+}), createOneUser)
 
 userRouter.get(
     '/githubregister',

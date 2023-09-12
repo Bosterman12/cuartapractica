@@ -235,8 +235,16 @@ app.get("/", (req, res) => {
 app.get("/api/product", (req, res) => {
     res.render('home')})
 
+app.get('/api/cart/:cid', (req,res) =>{
+    res.render('cart')
+})
+
 app.get("/api/errorLogin", (req, res) => {
     res.render('errorLogin')
+})
+
+app.get("/api/errorSignup", (req, res) => {
+    res.render('errorSignup')
 })
 
 app.get('/logger', (req, res) => {

@@ -1,2 +1,26 @@
-{{>categorias/categorias}}
-<h3>Navbar</h3>
+
+
+<nav class="navbar navbar-expand-lg navbar-success bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand"  class="text-white-50 mb-5">Tienda de quesos y fiambres</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <form action= "/api/cart" method="post">
+        <input  class="btn btn-danger ps-3 " type="submit" value="Crear carrito">
+            </form>
+          <a class="nav-link active" aria-current="page" href="/api/cart">Crear carrito</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Mensajes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/session/logout" >Logout</a>
+       
+      </ul>
+    </div>
+  </div>
+</nav>

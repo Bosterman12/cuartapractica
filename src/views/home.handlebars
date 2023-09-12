@@ -1,6 +1,7 @@
-<h1 class="ps-2">Tienda de quesos y fiambres</h1>
+
+{{>navbar}}
 <div class="ps-2">
-    <h2>Bienvenido : {{user.first_name}} </h2>   
+    <p>Bienvenido : {{user.first_name}} </p>   
     <p>email : {{user.email}} </p>
     <p>Rol: {{user.role}} </p>
     <p>cart : {{user.cart}} </p>
@@ -8,8 +9,8 @@
 
 
 
-<form action= "../session/login" method="get">
-        <input  class="btn btn-light ps-3 " type="submit" value="Logout">
+<form action= "../session/logout" method="get">
+        <input  class="btn btn-danger ps-3 " type="submit" value="Logout">
 </form>
 
 

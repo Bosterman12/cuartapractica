@@ -20,6 +20,7 @@ const initializePassport = () => {
 
                 if(user){
                     return done (null, false)
+                    
                 }
                 const passwordHash = createHash(password)
                 const userCreated = await userModel.create({
@@ -107,6 +108,7 @@ const initializePassport = () => {
           const {given_name, family_name, email} = profile._json
           try{
             const userDB = await userModel.findOne({email})
+            
             if(userDB){
               return done (null, userDB)
             }

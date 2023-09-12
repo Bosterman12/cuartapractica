@@ -37,12 +37,13 @@ export const findOneUser = async (req,res) => {
 
 export const createOneUser = async (req, res) => {
     const { first_name, last_name, email, gender, password, role } = req.body
-    if (!first_name || !last_name || !email || !gender || !password || !role) {
+    if (!first_name || !last_name || !email || !gender || !password) {
       return res.status(400).json({ message: 'Data missing' })
     }
     try {
       const newUser = await createOne(req.body)
-      res.status(200).json({ message: 'User create', user: newUser })
+      //res.status(200).json({ message: 'User create', user: newUser })
+      res.redirect('../session/login')
     } catch (error) {
       res.status(500).json({ error })
     }

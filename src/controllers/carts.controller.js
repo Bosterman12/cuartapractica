@@ -3,7 +3,7 @@ import { generateErrorAddProduct, generateErrorAddProductToCart } from "../error
 import EErrors from "../errors/enum.js";
 import CustomError from "../errors/customError.js";
 import { findAllProducts, findOneProductByid, updateOneProduct } from "../services/products.services.js";
-
+import {updateOne} from "../services/users.services.js"
 
 export const findCarts = async (req,res) => {
     try{
@@ -26,8 +26,19 @@ export const findOneCart = async (req,res) => {
     const id = req.params.cid
     try{
         const cart = await findOneCartByid(id)
+        
+        console.log(cart)
+        
         if(cart) {
-            res.status(200).json({message: "cart found", cart:id})
+           // res.status(200).json({message: "cart found", cart:id })
+            res.render('cart', {
+              cart : id,
+              products : cart.products,
+              
+              
+             
+              
+             })
 
         }else{
             res.status(400).json({message: "no cart"})
@@ -42,6 +53,23 @@ export const createCart = async (req, res) => {
     const cart = await createOneCart({})
     console.log(cart)
     res.status(200).send(cart)
+    req.session.user = {
+      id : req.user.id,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      gender: req.user.gender,
+      email: req.user.email,
+      role: req.user.role,
+      cartcreate: req.user.cart,
+      last_connection : new Date()
+      
+    }
+    const {id} = req.session.user
+    const cartCreated = cart.id
+    console.log(cartCreated)
+   const updateUser = await updateOne ({_id : id}, {cart : cartCreated})
+   console.log(updateUser)
+   //res.redirect('/api/product')
     //res.send("carrito creado")
    }catch(error) {
     res.status(500).send('error')
@@ -87,7 +115,20 @@ export const createCart = async (req, res) => {
               console.log(newStock)
              // product.stock.push(newStock)
               await updateOneProduct ({_id: pid}, {stock : newStock})
-             res.status(200).send('Producto agregado al carrito')
+             //res.status(200).send('Producto agregado al carrito')
+             const user = req.session.user
+
+
+             res.render('productAdded', {
+              id : user.id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              gender: user.gender,
+              email: user.email,
+              role: user.role,
+              cart: user.cart,
+              last_connection : new Date()
+             })
             }
             
           } catch (err) {
