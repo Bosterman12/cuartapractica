@@ -4,6 +4,7 @@ import EErrors from "../errors/enum.js";
 import CustomError from "../errors/customError.js";
 import { findAllProducts, findOneProductByid, updateOneProduct } from "../services/products.services.js";
 import {updateOne} from "../services/users.services.js"
+import { json } from "express";
 
 export const findCarts = async (req,res) => {
     try{
@@ -23,29 +24,38 @@ export const findCarts = async (req,res) => {
 
 export const findOneCart = async (req,res) => {
 
-    const id = req.params.cid
-    try{
-        const cart = await findOneCartByid(id)
-        
-        console.log(cart)
-        
-        if(cart) {
+    const cid   = req.params.cid
+    const cart  = await findOneCartByid({_id : cid})
+   // console.log(cart)
+   const user = req.session.user
+        const products = cart.products
+        console.log(products)
+        /*const product = [];
+        for (let i=0 ; products.length; i++){
+          product.push(products[i])*
+        }*/
+    if(cart) {
+    try{ 
+           
            // res.status(200).json({message: "cart found", cart:id })
-            res.render('cart', {
-              cart : id,
-              products : cart.products,
-              
-              
+            res.render('cart',{
              
-              
-             })
+             //product : product
+              first_name: user.first_name,
+              email: user.email,
+              role: user.role,
+              cart: user.cart,
+              products : products,
+             
+            }
+              )}catch(error) {
+                res.status(500).json({error})
+            }
 
         }else{
             res.status(400).json({message: "no cart"})
         }
-    }catch(error) {
-        res.status(500).json({error})
-    }
+    
 }
 
 export const createCart = async (req, res) => {
@@ -69,7 +79,7 @@ export const createCart = async (req, res) => {
     console.log(cartCreated)
    const updateUser = await updateOne ({_id : id}, {cart : cartCreated})
    console.log(updateUser)
-   //res.redirect('/api/product')
+  // res.redirect('/api/product')
     //res.send("carrito creado")
    }catch(error) {
     res.status(500).send('error')
@@ -83,7 +93,7 @@ export const createCart = async (req, res) => {
     const {quantity} = req.body
     const cart = await findOneCartByid({_id: cid})
     const product = await findOneProductByid({_id: pid})
-    console.log(product)
+    //console.log(product)
 
     if ( quantity > product.stock) {
       /* CustomError.createError({
@@ -104,15 +114,15 @@ export const createCart = async (req, res) => {
               cant: quantity,
             
             }
-            console.log(cart)
-            console.log(addProductCart)
-            if(req.user.role === 'premium' || req.user.id === product.owner) {
+            //console.log(cart)
+            //console.log(addProductCart)
+            if(req.user.role === 'premium' && req.user.id === product.owner) {
               res.status(401).json({message: 'Ud no puede comprar su propio producto'})
             }else{
               cart.products.push(addProductCart)
               await updateOneCart({_id: cid}, cart)
               const newStock = product.stock -= quantity
-              console.log(newStock)
+              //console.log(newStock)
              // product.stock.push(newStock)
               await updateOneProduct ({_id: pid}, {stock : newStock})
              //res.status(200).send('Producto agregado al carrito')

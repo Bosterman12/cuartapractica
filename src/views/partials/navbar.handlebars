@@ -12,7 +12,12 @@
             <form action= "/api/cart" method="post">
         <input  class="btn btn-danger ps-3 " type="submit" value="Crear carrito">
             </form>
-          <a class="nav-link active" aria-current="page" href="/api/cart">Crear carrito</a>
+          
+        </li>
+        <li class="nav-item">
+            <form action= "/api/cart/{{user.cart}}" method="get">
+        <input  class="btn btn-info ps-3 " type="submit" value="Ver carrito">
+            
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Mensajes</a>

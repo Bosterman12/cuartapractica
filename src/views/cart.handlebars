@@ -1,17 +1,32 @@
 
 {{>navbar}}
 <div class="ps-2">
-    <p>Bienvenido : {{user.first_name}} </p>   
-    <p>email : {{user.email}} </p>
-    <p>Rol: {{user.role}} </p>
-    <p>cart : {{user.cart}} </p>
+    <p>Bienvenido : {{first_name}} </p>   
+    <p>email : {{email}} </p>
+    <p>Rol: {{role}} </p>
+    <p>cart : {{cart}} </p>
 </div>
 
 
 
-<form action= "../session/logout" method="get">
-        <input  class="btn btn-danger ps-3 " type="submit" value="Logout">
+<form action= "/api/product" method="get">
+        <input  class="btn btn-warning ps-3 " type="submit" value="Volver">
 </form>
-{{cart}}
-{{products}}
-   
+ 
+
+ {{#each products}}
+    <div class='col-md-3 mx-2 my-3 r' >                                 
+                <div class="card w-100 mt-5" >
+                        <div class="card-header text-white bg-dark">
+                            {{id_prod}} 
+                        </div> 
+                        
+                            <br />
+                            Cantidad : {{cant}}  
+                        </div>                                                                                   
+                </div>
+       <button onclick="window.location.href='/api/product/{{_id}}' " class="btn btn-primary ps-3">Ver producto</button>
+    </div>
+
+    {{/each}}
+
