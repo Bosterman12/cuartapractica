@@ -36,7 +36,7 @@ export const testLogin =  async (req, res, next) => {
             }*/
 
             //res.status(200).send({status: "sucess", payload: req.user})
-            console.log(req.session.user)
+            //console.log(req.session.user)
            
            res.redirect('../api/product')
             

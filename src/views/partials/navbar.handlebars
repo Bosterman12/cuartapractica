@@ -17,10 +17,16 @@
         <li class="nav-item">
             <form action= "/api/cart/{{user.cart}}" method="get">
         <input  class="btn btn-info ps-3 " type="submit" value="Ver carrito">
-            
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mensajes</a>
+            <form action= "/api/product/" method="get">
+        <input  class="btn btn-info ps-3 " type="submit" value="Volver al home" >
+        </form>
+        </li>
+
+        <li class="nav-item">
+          
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/session/logout" >Logout</a>

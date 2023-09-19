@@ -1,5 +1,7 @@
 
 {{>navbar}}
+
+<h1 class="ps-2">Carrito</h1>
 <div class="ps-2">
     <p>Bienvenido : {{first_name}} </p>   
     <p>email : {{email}} </p>
@@ -8,25 +10,57 @@
 </div>
 
 
-
-<form action= "/api/product" method="get">
-        <input  class="btn btn-warning ps-3 " type="submit" value="Volver">
-</form>
+ 
+<li class="nav-item">
+       <button onclick="window.location.href='/api/product/' " class="btn btn-primary ps-3">Seguir comprando</button>     
+ </li>
  
 
- {{#each products}}
-    <div class='col-md-3 mx-2 my-3 r' >                                 
-                <div class="card w-100 mt-5" >
-                        <div class="card-header text-white bg-dark">
-                            {{id_prod}} 
-                        </div> 
-                        
-                            <br />
-                            Cantidad : {{cant}}  
-                        </div>                                                                                   
-                </div>
-       <button onclick="window.location.href='/api/product/{{_id}}' " class="btn btn-primary ps-3">Ver producto</button>
+<div class="d-flex flex-wrap" >
+    {{#each productDataArray}}
+<div class='col-md-3 mx-2 my-3 r' >                                 
+    <div class="card w-100 mt-5" >
+        <div class="card-header text-white bg-warning">
+            {{this.productData.description}} 
+        </div> 
+        <div class="card-body">
+            
+                    <img  class="card-img"  style=' width:280px;height:200px;' src= {{this.productData.tumbnail}} > 
+        
+            
+            <br />
+             cantidad : {{this.cant}} 
+             <br />
+             precio unitario: {{this.productData.price}} 
+            <br />
+            description : {{this.productData.title}}  
+            <br />
+            cart : {{this.userCart}} 
+        </div>                                                                                   
     </div>
+    <li class="nav-item">
+            <form action= "/api/cart/{{this.userCart}}/product/{{this.productData._id}}?_method=DELETE" method="POST">
+           
+            <input type="hidden" name="_method" value="DELETE">
+        <input  class="btn btn-info ps-3 " type="submit" value="Eliminar producto" >
+        </form>
+        </li>
+        <form action= "/api/cart/{{this.userCart}}/product/{{this.productData._id}}?_method=PUT" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="form-outline form-white mb-4">
+                    <label class="form-label" for="typeEmailX">Ingrese cantidad a modificar</label>
+                    <input name =quantity type="text" id="typeEmailX" class="form-control form-control-lg" />
+                    
+                </div>
 
-    {{/each}}
+            
+
+
+                <button class="btn btn-primary ps-3" type="submit">Agregar al carrito</button>
+            </form>
+        
+</div>
+{{/each}}
+</div>
+    
 

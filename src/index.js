@@ -36,6 +36,7 @@ import errorHandler from './middleware/errors.middleware.js'
 import { addLogger } from './utils/logger.js'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUiExpress from 'swagger-ui-express'
+import methodOverride from 'method-override'
 
 
 
@@ -108,7 +109,7 @@ app.use('/static', express.static(__dirname + '/public'))
 //const upload = (multer({storage:storage}))
 app.use(cookieParser(config.COOKIE_SECRET))
 app.use(cors())
-
+app.use(methodOverride('_method'))
 
 
 

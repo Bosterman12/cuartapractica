@@ -5,6 +5,7 @@ import CustomError from "../errors/customError.js";
 import { findAllProducts, findOneProductByid, updateOneProduct } from "../services/products.services.js";
 import {updateOne} from "../services/users.services.js"
 import { json } from "express";
+import { deleteProduct } from "../middleware/deleteProductsCart.middleware.js";
 
 export const findCarts = async (req,res) => {
     try{
@@ -22,21 +23,29 @@ export const findCarts = async (req,res) => {
     }
 }
 
-export const findOneCart = async (req,res) => {
+/*export const findOneCart = async (req,res) => {
 
     const cid   = req.params.cid
     const cart  = await findOneCartByid({_id : cid})
    // console.log(cart)
    const user = req.session.user
         const products = cart.products
-        console.log(products)
-        /*const product = [];
-        for (let i=0 ; products.length; i++){
-          product.push(products[i])*
-        }*/
+       // console.log(products)
+      for (var i = 0; i < products.length; i++) {
+        var objeto = products[i];
+        //console.log(objeto); // Haz lo que desees con cada objeto
+        
+        //console.log(id_prod)
+        const id_prod =objeto.id_prod
+      const productData = await findOneProductByid({ _id : id_prod})
+      console.log(productData)
+      
+      }
+      
+       
     if(cart) {
-    try{ 
-           
+    
+           try{ 
            // res.status(200).json({message: "cart found", cart:id })
             res.render('cart',{
              
@@ -46,9 +55,10 @@ export const findOneCart = async (req,res) => {
               role: user.role,
               cart: user.cart,
               products : products,
+              description : productData
              
             }
-              )}catch(error) {
+              )}   catch(error) {
                 res.status(500).json({error})
             }
 
@@ -56,7 +66,57 @@ export const findOneCart = async (req,res) => {
             res.status(400).json({message: "no cart"})
         }
     
-}
+ }*/
+
+ export const findOneCart = async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const cart = await findOneCartByid({ _id: cid });
+
+    if (!cart) {
+      return res.status(400).json({ message: "No cart" });
+    }
+
+    const user = req.session.user;
+    const products = cart.products;
+
+    // Un array para almacenar los datos de todos los productos
+    const productDataArray = [];
+
+    for (var i = 0; i < products.length; i++) {
+      var objeto = products[i];
+      const id_prod = objeto.id_prod;
+      const cant = objeto.cant
+      const productData = await findOneProductByid({ _id: id_prod });
+      const userCart = cart._id
+      //console.log(userCart)
+      // Almacena los datos de cada producto en el array
+      productDataArray.push({productData, cant, userCart});
+      //console.log(productDataArray)
+  
+      
+      
+      
+    }
+    
+    
+    //console.log(productDataArray);
+
+    res.render('cart', {
+      first_name: user.first_name,
+      email: user.email,
+      role: user.role,
+      cart: user.cart,
+
+      //products: products,
+      //cant: productDataArray.cant,
+      productDataArray: productDataArray, // Pasa el array de datos de los productos
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
 
 export const createCart = async (req, res) => {
    try{
@@ -89,6 +149,7 @@ export const createCart = async (req, res) => {
 
   export const updateCart = async (req,res, next) => {
     const cid = req.params.cid
+    console.log(cid)
     const pid = req.params.pid
     const {quantity} = req.body
     const cart = await findOneCartByid({_id: cid})
@@ -163,29 +224,43 @@ export const createCart = async (req, res) => {
   }
 
  export const deleteCart= async (req,res) => {
-    const cid = req.params.cid
-    const pid = req.params.pid
-    const cart = await findOneCartByid({_id: cid})
+    
+  
+    const cid = req.params.cid.toString()
+    const  pid= req.params.pid.toString()
+   
+     
+    console.log(cid)
+    const cart = await findOneCartByid({_id: cid })
     const product = await findOneProductByid({_id: pid})
-    console.log(product)
+    //console.log(product)
     try{
 
         const productfind = cart.products
         const productToDelete  = productfind.find((prod) => prod.id_prod == pid)
-        console.log(productToDelete)
+        const productIndex = productfind.findIndex((prod) => prod.id_prod == pid)
+       // console.log(productToDelete)
+        //console.log(productIndex)
         const stockIncrease = productToDelete.cant
-        console.log(stockIncrease)
+       // console.log(stockIncrease)
         const newStock =  product.stock += stockIncrease
-        console.log(newStock)
+       // console.log(newStock)
       
         await updateOneProduct ({_id: pid}, {stock : newStock})
-        productfind.splice(productToDelete, 1)
+        productfind.splice(productIndex, 1)
 
         await updateOneCart({_id : cid}, {products: productfind})
-        
-
+       // console.log(cart)
+        const user = req.session.user
+        res.render('productDeleted', {
+          
+          email: user.email,
+          role: user.role,
+          cart: user.cart,
+          
+         })
        // const deleteOneProd = await deleteOneCart({_id: id})
-        res.status(200).json({ message: 'Product removed from cart' })
+       // res.status(200).json({ message: 'Product removed from cart' })
     
     }catch(error){
         res.status(500).json({ error })
@@ -207,9 +282,22 @@ export const updateQuantCart = async (req,res) => {
         
         productsList[productUpdate].cant = quantity
 
+        const newStock = product.stock -= quantity
+             //console.log(newStock)
+             // product.stock.push(newStock)
+        await updateOneProduct ({_id: pid}, {stock : newStock})
         await updateOneCart ({_id : cid}, {products : productsList})
-        res.status(200).send('Cantidad actualizada')
-        
+        //res.status(200).send('Cantidad actualizada')
+        const user = req.session.user
+        res.render('productUpdated', {
+          
+          email: user.email,
+          role: user.role,
+          cart: user.cart,
+          producto : productUpdate.id_prod,
+          cantidad : productUpdate.cant
+          
+         })
         
       } catch (err) {
         res.status(500).send('No se pudo actualizar la cantidad')

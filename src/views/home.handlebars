@@ -9,10 +9,8 @@
 
 
 
-<form action= "../session/logout" method="get">
-        <input  class="btn btn-danger ps-3 " type="submit" value="Logout">
-</form>
 
+<button onclick="location.href='/session/logout'"class="btn btn-danger btn-lg mb-3 px-5"  >Logout</button>
 
 <div class="d-flex flex-wrap">
     {{#each products}}
@@ -22,7 +20,8 @@
                             {{title}} 
                         </div> 
                         <div class="card-body">
-                            <img src= {{tumbnail}}  style=' width:280px;height:200px;' class="card-img" >  
+
+                            <img   class="card-img"  style=' width:280px;height:200px;' src= {{tumbnail}}    > 
                             <br />
                             Price:  $  {{price}}   
                             <br />
