@@ -79,9 +79,15 @@ export const findOneorder = async (req,res) => {
           const newOrder = await createOneOrder({
             code : codeGenerator(),
             amount : totalAmount,
-            purchaser : req.user.id
+            purchaser : req.user.email
           })
-          res.status(200).json({ message: 'Order created', order: newOrder })
+          //res.status(200).json({ message: 'Order created', order: newOrder })
+          res.render('order',{
+            code : newOrder.code,
+            purchaser : newOrder.purchaser,
+            amount : newOrder.amount,
+           
+          })
     }
     
     

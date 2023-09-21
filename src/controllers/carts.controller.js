@@ -122,7 +122,7 @@ export const createCart = async (req, res) => {
    try{
     const cart = await createOneCart({})
     console.log(cart)
-    res.status(200).send(cart)
+    //res.status(200).send(cart)
     req.session.user = {
       id : req.user.id,
       first_name: req.user.first_name,
@@ -139,6 +139,16 @@ export const createCart = async (req, res) => {
     console.log(cartCreated)
    const updateUser = await updateOne ({_id : id}, {cart : cartCreated})
    console.log(updateUser)
+   const user = req.session.user
+
+
+   res.render('cartCreated', {
+   
+    email: user.email,
+    role: user.role,
+    cart: user.cart,
+    
+   })
   // res.redirect('/api/product')
     //res.send("carrito creado")
    }catch(error) {
