@@ -52,9 +52,7 @@ export const findOneorder = async (req,res) => {
     const cart = await findOneCartByid({_id: cid})
     let totalAmount = 0
    
-        /* const productCart = cart.products
-    console.log(productCart)
-    const productBase = await findOneProductByid ({id_prod : id})*/
+        
     for (const product of cart.products){
         const quantity = product.cant
         const productId = product.id_prod
@@ -66,7 +64,7 @@ export const findOneorder = async (req,res) => {
             totalAmount += total
         
         
-        //console.log(totalAmount)   }
+        console.log(totalAmount)   }
         /*const code = codeGenerator()
         const amount = totalAmount
         console.log(amount)
@@ -97,10 +95,10 @@ export const findOneorder = async (req,res) => {
     
    
       catch (error) {
-      //res.status(500).json({ error })
+      res.status(500).json({ error })
     }
       
- }  }
+ }   
     
     
     

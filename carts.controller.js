@@ -268,13 +268,13 @@ export const createCart = async (req, res) => {
                 }
                 
                 if(user.role === 'premium' && user.id === productOwner) {
-                 // res.status(401).json({message: 'Ud no puede comprar su propio producto'})
-                 res.render('premiumStop', {
+                  res.status(401).json({message: 'Ud no puede comprar su propio producto'})
+                /* res.render('premiumStop', {
                   
                   email: user.email,
                   role: user.role,
                  
-                 })
+                 })*/
                 }
                 else{
                   const productIndex = cart.products.findIndex((prod) => prod.id_prod == pid);

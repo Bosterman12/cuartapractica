@@ -15,7 +15,13 @@ export const applyPolicy = (role) => {
       if (role.includes(req.user.role)) {
         return next()
       } else {
-        return res.status(401).json({ Error: 'unauthorized' })
+        //return res.status(401).json({ Error: 'unauthorized' })
+        res.render('adminStop', {
+                  
+          email: user.email,
+          role: user.role,
+         
+         })
       }
     }
   }
