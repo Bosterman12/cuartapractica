@@ -4,6 +4,7 @@ import { v4 as codeGenerator } from "uuid"
 import { findOneProductByid } from "../services/products.services.js"
 import { id_ID } from "@faker-js/faker"
 import { emptyCart } from "./carts.controller.js"
+import { transporter } from "../utils/nodemailer.js"
 export const findAllOrder = async (req,res) => {
     try{
         const orders = await findAllOrders()
@@ -64,7 +65,7 @@ export const findOneorder = async (req,res) => {
             totalAmount += total
         
         
-        console.log(totalAmount)   }
+       console.log(totalAmount)   }
         /*const code = codeGenerator()
         const amount = totalAmount
         console.log(amount)
@@ -73,29 +74,41 @@ export const findOneorder = async (req,res) => {
             return res.status(400).json({ message: 'Data missing' })
           }*/
         try{   
-       
+            const user = req.session.user
+            console.log(user)
        
           const newOrder = await createOneOrder({
             code : codeGenerator(),
             amount : totalAmount,
             purchaser : req.user.email
           })
+          console.log(newOrder.purchaser)
           //res.status(200).json({ message: 'Order created', order: newOrder })
-          
-         res.render('order',{
+          await transporter.sendMail({
+            to: newOrder.purchaser,
+            subject: `Compra realizada`,
+            text: `
+            Muchas gracias por su compra, ${req.user.first_name}
+            Este es su número de ticket: ${newOrder.code}
+            Amount: $${newOrder.amount},
+            Ecommerce Services`,
+          }) 
+        
+        
+          res.render('order',{
             code : newOrder.code,
             purchaser : newOrder.purchaser,
             amount : newOrder.amount,
            
           })
 
-           
+          
     }
     
     
    
       catch (error) {
-      res.status(500).json({ error })
+      res.status(500).send('error de email' + error)
     }
       
  }   

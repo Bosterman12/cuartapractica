@@ -17,6 +17,7 @@ export const findAll = async ()=> {
 export const findOne = async (id)=> {
     try{
         const user = await usersManager.findOneById(id)
+     
         return user
     }catch(error) {
         return error

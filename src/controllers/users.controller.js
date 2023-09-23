@@ -3,12 +3,17 @@
 }*/
 
 import { findAll, findOne, createOne, updateOne } from "../services/users.services.js";
+import { userModel } from "../models/Users.js";
 
 export const findAllUsers = async (req,res) => {
     try{
         const users = await findAll()
+        //console.log(users)
         if(users) {
-            res.status(200).json({message: "users found", users})
+           // res.status(200).json({message: "users found", users})
+           res.render('admin', {
+            users : users
+           })
 
         }else{
             res.status(200).json({message: "no users"})
@@ -49,7 +54,7 @@ export const createOneUser = async (req, res) => {
     }
   }
 
-  export const updateOneUser = async (req,res) => {
+ /* export const updateOneUser = async (req,res) => {
    
     req.session.user = {
         id : req.user.id,
@@ -74,4 +79,37 @@ export const createOneUser = async (req, res) => {
     } catch(error) {
         res.status(500).json({ error })
     }
-}
+}*/
+
+export const updateOneUser = async (req,res) => {
+   
+    const {uid} = req.params
+    console.log(uid)
+    
+    try{
+        const user = await userModel.findById(uid)
+        console.log(user)
+    if(user.role != 'admin'){
+        user.role = user.role === 'user' ? 'premium' : 'user'
+
+      await user.save()
+      //res.status(200).json({ message: 'User updated', user: user })
+      res.render('roleChange', {
+        user: user
+      })
+    }else{
+        
+            
+        res.status(200).json({ message: 'Usuario no actualizado' })
+            
+        
+        
+        
+        
+    }
+    
+      
+    } catch(error) {
+        res.status(500).json({ error })
+    } 
+    } 

@@ -1,9 +1,10 @@
 import { Router } from "express";
 import passport from "passport";
 //import { createUser } from "../controllers/users.controller.js";
-import { findOneUser, findAllUsers, createOneUser } from "../controllers/users.controller.js";
+import { findOneUser, findAllUsers, createOneUser, updateOneUser } from "../controllers/users.controller.js";
 import { upload, uploadProfile, uploadDocument} from "../controllers/multer.controller.js";
 import multer from "multer";
+import appyPolicy, { applyPolicy } from '../middleware/role.middleware.js'
 
 const userRouter = Router()
 
@@ -39,7 +40,7 @@ userRouter.get(
     res.redirect('../api/product');
   })
 
-userRouter.get('/',findAllUsers)
+userRouter.get('/',applyPolicy(['admin']), findAllUsers)
 userRouter.get('/:id', findOneUser)
 //userRouter.post('/register', createOneUser)
 
@@ -66,5 +67,7 @@ userRouter.post('/documents/uploadProfile', uploadProfile.single('profile'), (re
   const typeFile = req.file.fieldname
     console.log(typeFile)
 })
+
+userRouter.post('/premium/:uid', appyPolicy(['admin']), updateOneUser)
 
 export default userRouter
