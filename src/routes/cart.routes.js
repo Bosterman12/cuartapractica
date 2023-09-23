@@ -1,7 +1,7 @@
 import { Router } from "express";
 //import { CartManager } from "../CartManager.js";
 //import { cartModel } from "../models/Cart.js";
-import { findCarts, findOneCart, createCart, updateCart,deleteCart, updateQuantCart } from "../controllers/carts.controller.js";
+import { findCarts, findOneCart, createCart, updateCart,deleteCart, updateQuantCart, emptyCart } from "../controllers/carts.controller.js";
 
 //const cartmanager = new CartManager ('carrito.txt')
 
@@ -124,6 +124,7 @@ cartRouter.post('/', createCart)
 cartRouter.post('/:cid/product/:pid', updateCart)
 cartRouter.delete('/:cid/product/:pid', deleteCart)
 cartRouter.put('/:cid/product/:pid', updateQuantCart)
+cartRouter.delete('/:cid', emptyCart)
 
 
 export default cartRouter

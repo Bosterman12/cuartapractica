@@ -146,7 +146,7 @@ export const createCart = async (req, res) => {
    
     email: user.email,
     role: user.role,
-    cart: user.cart,
+    cart: cartCreated,
     
    })
   // res.redirect('/api/product')
@@ -157,7 +157,7 @@ export const createCart = async (req, res) => {
     
   }
 
-  export const updateCart = async (req,res, next) => {
+ /* export const updateCart = async (req,res, next) => {
     const cid = req.params.cid
     console.log(cid)
     const pid = req.params.pid
@@ -175,63 +175,144 @@ export const createCart = async (req, res) => {
           message: 'Error adding product to cart',
           code: EErrors.INVALID_ARGUMENT,
         })*/
-        res.status(500).send('producto sin stock')
+       /* res.status(500).send('producto sin stock')
         }else{
           try {
-        
+            const productsList = cart.products
+            const productUpdate = productsList.findIndex((prod) => prod.id_prod == pid)
           
-            const addProductCart = {
-              id_prod: pid,
-              cant: quantity,
+            if(productUpdate === -1) {
+              const addProductCart = {
+                id_prod: pid,
+                cant: quantity,
+              
+              }
+              
+              cart.products.push(addProductCart)
+              
+             
+
+              if(req.user.role === 'premium' && req.user.id === product.owner) {
+                res.status(401).json({message: 'Ud no puede comprar su propio producto'})
+              }else{
+                
+                await updateOneCart({_id: cid}, cart)
+                const newStock = product.stock -= quantity
+                //console.log(newStock)
+               // product.stock.push(newStock)
+                await updateOneProduct ({_id: pid}, {stock : newStock})
+               //res.status(200).send('Producto agregado al carrito')
+               const user = req.session.user
+  
+  
+               res.render('productAdded', {
+                id : user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                gender: user.gender,
+                email: user.email,
+                role: user.role,
+                cart: user.cart,
+                last_connection : new Date()
+               })
+              
+              
+            }   } } catch (err) {
+              console.log(err)
+            }  }  }*/
+         
+  
+      /*if ( !pid || !cid ||!quantity||!owner ) {
+                  CustomError.createError({
+                    name: 'Product creation error',
+                    cause: generateErrorAddProductToCart({
+                      pid,
+                      quantity
+                    }),
+                    message: 'Error adding product to cart',
+                    code: EErrors.INVALID_ARGUMENT,
+                  })
+                }*/
+          
+          
+      
+    
+
+
             
-            }
+
+            
             //console.log(cart)
             //console.log(addProductCart)
-            if(req.user.role === 'premium' && req.user.id === product.owner) {
-              res.status(401).json({message: 'Ud no puede comprar su propio producto'})
-            }else{
-              cart.products.push(addProductCart)
-              await updateOneCart({_id: cid}, cart)
-              const newStock = product.stock -= quantity
-              //console.log(newStock)
-             // product.stock.push(newStock)
-              await updateOneProduct ({_id: pid}, {stock : newStock})
-             //res.status(200).send('Producto agregado al carrito')
-             const user = req.session.user
 
-
-             res.render('productAdded', {
-              id : user.id,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              gender: user.gender,
-              email: user.email,
-              role: user.role,
-              cart: user.cart,
-              last_connection : new Date()
-             })
-            }
+            export const updateCart = async (req, res, next) => {
+              try {
+                const cid = req.params.cid;
+                const pid = req.params.pid;
+                const { quantity } = req.body;
             
-          } catch (err) {
-            console.log(err)
-          }
-        }
+                const cart = await findOneCartByid({ _id: cid });
+                const product = await findOneProductByid({ _id: pid });
+            
+                if (!cart || !product) {
+                  return res.status(404).json({ message: 'Cart or product not found' });
+                }
+            
+                if (quantity > product.stock) {
+                  return res.status(500).json({ message: 'Product out of stock' });
+                }
+            
+                const productIndex = cart.products.findIndex((prod) => prod.id_prod == pid);
+            
+                if (productIndex === -1) {
+                  const addProductCart = {
+                    id_prod: pid,
+                    cant: quantity,
+                  };
+            
+                  cart.products.push(addProductCart);
+                  await updateOneCart({ _id: cid }, { products: cart.products });
+            
+                  const newStock = product.stock - quantity;
+                  await updateOneProduct({ _id: pid }, { stock: newStock });
+                  const user = req.session.user
+  
+  
+               res.render('productAdded', {
+                id : user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                gender: user.gender,
+                email: user.email,
+                role: user.role,
+                cart: user.cart,
+                last_connection : new Date()
+               })
+              
+            
+               //   return res.status(200).json({ message: 'Product added to cart' });
+                } else {
+                  const user = req.session.user
+  
+  
+               res.render('productExist', {
+                id : user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                gender: user.gender,
+                email: user.email,
+                role: user.role,
+                cart: user.cart,
+                last_connection : new Date()
+               })
+                //  return res.status(400).json({ message: 'Product already in the cart' });
+                }
+              } catch (error) {
+                return res.status(500).json({ error: error.message });
+              }
+            };
+            
 
-    /*if ( !pid || !cid ||!quantity||!owner ) {
-                CustomError.createError({
-                  name: 'Product creation error',
-                  cause: generateErrorAddProductToCart({
-                    pid,
-                    quantity
-                  }),
-                  message: 'Error adding product to cart',
-                  code: EErrors.INVALID_ARGUMENT,
-                })
-              }*/
-        
-        
-    
-  }
 
  export const deleteCart= async (req,res) => {
     
@@ -289,10 +370,11 @@ export const updateQuantCart = async (req,res) => {
       try { 
         const productsList = cart.products
         const productUpdate = productsList.findIndex((prod) => prod.id_prod == pid)
-        
+        const oldQuantity = productsList[productUpdate].cant
+        console.log(oldQuantity)
         productsList[productUpdate].cant = quantity
 
-        const newStock = product.stock -= quantity
+        const newStock = product.stock - (quantity - oldQuantity)
              //console.log(newStock)
              // product.stock.push(newStock)
         await updateOneProduct ({_id: pid}, {stock : newStock})
@@ -315,4 +397,26 @@ export const updateQuantCart = async (req,res) => {
       }
       
     
-}
+}   
+
+export const emptyCart = async (req, res) => {
+  const cid = req.params.cid;
+
+  try {
+    const cart = await findOneCartByid({ _id: cid });
+
+    if (!cart) {
+      return res.status(404).json({ message: 'Cart not found' });
+    }
+
+    // Vaciar el carrito
+    cart.products = [];
+    await updateOneCart({ _id: cid }, { products: cart.products });
+
+    //res.status(200).json({ message: 'Cart emptied successfully' });
+    res.redirect('/api/product')
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to empty the cart' });
+  }
+};
+

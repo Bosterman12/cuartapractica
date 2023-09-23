@@ -1,5 +1,6 @@
 import { Schema, SchemaTypes, model } from "mongoose";
 import paginate from "mongoose-paginate-v2";
+import {cartModel} from './Cart.js'
 //import mongoose from "mongoose";
 
 
@@ -60,6 +61,24 @@ const userSchema = new Schema  ({
 })
 
 userSchema.plugin(paginate)
+
+userSchema.pre('save', async function (next) {
+    if (!this.isNew) {
+      return next()
+    }
+  
+    try {
+      const newcart = new cartModel()
+  
+      await newcart.save()
+  
+      this.cart = newcart._id
+  
+      return next()
+    } catch (error) {
+      return next(error)
+    }
+  })
 
 export const userModel = model("users", userSchema)
 

@@ -52,5 +52,15 @@ export default class cartManager {
             return (error)
         }
     }
+
+    async deleteCart(id){
+        try{
+            const deleteCart = await cartModel.delete({_id:id})
+            return deleteCart
+    
+        }catch(error) {
+            return (error)
+        }
+    }
     
 }

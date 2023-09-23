@@ -1,8 +1,9 @@
 import { findAllOrders, findOneOrderByid, createOneOrder, updateOneOrder, deleteOneOrder } from "../services/orders.services.js"
-import { findOneCartByid } from "../services/carts.services.js"
+import { findOneCartByid, deleteCart } from "../services/carts.services.js"
 import { v4 as codeGenerator } from "uuid"
 import { findOneProductByid } from "../services/products.services.js"
 import { id_ID } from "@faker-js/faker"
+import { emptyCart } from "./carts.controller.js"
 export const findAllOrder = async (req,res) => {
     try{
         const orders = await findAllOrders()
@@ -65,7 +66,7 @@ export const findOneorder = async (req,res) => {
             totalAmount += total
         
         
-        console.log(totalAmount)   }
+        //console.log(totalAmount)   }
         /*const code = codeGenerator()
         const amount = totalAmount
         console.log(amount)
@@ -82,12 +83,15 @@ export const findOneorder = async (req,res) => {
             purchaser : req.user.email
           })
           //res.status(200).json({ message: 'Order created', order: newOrder })
-          res.render('order',{
+          
+         res.render('order',{
             code : newOrder.code,
             purchaser : newOrder.purchaser,
             amount : newOrder.amount,
            
           })
+
+           
     }
     
     
@@ -96,7 +100,7 @@ export const findOneorder = async (req,res) => {
       //res.status(500).json({ error })
     }
       
- }
+ }  }
     
     
     
@@ -123,5 +127,6 @@ export const findOneorder = async (req,res) => {
     }catch(error){
         res.status(500).json({ error })
     }
-    
+    cart.products.splice(0, cart.products.lenght)
+    console.log(cart)
 }

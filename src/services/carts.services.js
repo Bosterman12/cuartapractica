@@ -49,3 +49,13 @@ export const deleteOneCart = async (id)=> {
         return error
     }
 }
+
+export const deleteCart = async (id)=> {
+    try{
+        
+        const deleteCart = await cartsManager.deleteCart(id)
+        return deleteCart
+    }catch(error) {
+        return error
+    }
+}
