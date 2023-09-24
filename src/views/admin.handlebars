@@ -3,12 +3,12 @@
 <h2>Admin users</h2>
 
 <div class="card-body pb-0 pt-2">
-    <form action="/api/user/updateAllActiveUsers" method="post">
+    <form action="/user/checkinactiveusers" method="get">
         <button class="btn btn-outline-primary btn-sm mb-3 px-5" type="submit">Check if users are active</button>
     </form>
 </div>
 <div class="card-body py-0">
-    <form action="/api/user/deleteInactiveUsers?_method=DELETE" method="POST">
+    <form action="/user/deleteInactiveUsers?_method=DELETE" method="POST">
         <button class="btn btn-outline-danger btn-sm mb-1  px-5" type="submit">DELETE ALL INACTIVE USERS</button>
     </form>
 </div>

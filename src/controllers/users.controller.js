@@ -142,3 +142,55 @@ export const updateOneUser = async (req,res) => {
             res.status(500).json({error})
         }
     }
+
+    export const deleteInactiveUsers = async (req,res) => {
+
+        const users = await findAll()
+        const today = Date.now()
+        const deletionDate = new Date (today -(1*24*60*60*1000))
+       // console.log(deletionDate)
+       try{
+        for (const connections of users){
+            if(deletionDate > connections.last_connection){
+                console.log(connections.last_connection)
+              if (users.role = 'premium'){
+                await transporter.sendMail({
+                    to: users.email,
+                    subject: `Cuenta eliminada`,
+                    text: ` Estimado ${users.first_name} le informamos que debido a su inactividad 
+                    el administrador ha eliminado su cuenta`
+                    
+                  })
+            }
+             await deleteOne(users)
+            res.redirect('/user/')
+            }
+       }
+        
+            
+        }catch(error) {
+            res.status(500).json({error})
+        }
+        
+        
+
+      
+    }
+
+    export const checkInactiveUsers = async (req,res) => {
+
+        const users = await findAll()
+        const today = Date.now()
+        const deletionDate = new Date (today -(1*24*60*60*1000))
+        console.log(deletionDate)
+        for (const connections of users){
+            if(deletionDate > connections.last_connection){
+                console.log(users)
+            }
+            
+        }
+        
+        
+
+      
+    }
