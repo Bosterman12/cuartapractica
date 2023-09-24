@@ -2,9 +2,9 @@
     res.send({ status : 'success', message: 'Usuario creado'})
 }*/
 
-import { findAll, findOne, createOne, updateOne } from "../services/users.services.js";
+import { findAll, findOne, createOne, updateOne , deleteOne} from "../services/users.services.js";
 import { userModel } from "../models/Users.js";
-
+import { transporter } from "../utils/nodemailer.js"
 export const findAllUsers = async (req,res) => {
     try{
         const users = await findAll()
@@ -113,3 +113,32 @@ export const updateOneUser = async (req,res) => {
         res.status(500).json({ error })
     } 
     } 
+
+    export const deleteOneUser = async (req,res) => {
+
+        const {id} = req.params
+        console.log(id)
+        const user = await userModel.findById(id)
+
+        try{
+            
+            if(user.role != 'admin') {
+                //res.status(200).json({message: "usuario eliminado", user:id})
+           if (user.role = 'premium'){
+                await transporter.sendMail({
+                    to: user.email,
+                    subject: `Cuenta eliminada`,
+                    text: ` Estimado ${user.first_name} le informamos que debido a su inactividad 
+                    el administrador ha eliminado su cuenta`
+                    
+                  })
+            }
+            const userDeleted = await deleteOne(id)
+            res.redirect('/user/')
+            }else{
+                res.status(400).json({message: "los usuarios admin no pueden ser eliminados"})
+            }
+        }catch(error) {
+            res.status(500).json({error})
+        }
+    }

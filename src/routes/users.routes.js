@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 //import { createUser } from "../controllers/users.controller.js";
-import { findOneUser, findAllUsers, createOneUser, updateOneUser } from "../controllers/users.controller.js";
+import { findOneUser, findAllUsers, createOneUser, updateOneUser, deleteOneUser } from "../controllers/users.controller.js";
 import { upload, uploadProfile, uploadDocument} from "../controllers/multer.controller.js";
 import multer from "multer";
 import appyPolicy, { applyPolicy } from '../middleware/role.middleware.js'
@@ -69,5 +69,6 @@ userRouter.post('/documents/uploadProfile', uploadProfile.single('profile'), (re
 })
 
 userRouter.post('/premium/:uid', appyPolicy(['admin']), updateOneUser)
+userRouter.delete('/delete/:id', appyPolicy(['admin']), deleteOneUser)
 
 export default userRouter

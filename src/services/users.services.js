@@ -43,3 +43,12 @@ export const updateOne = async (id, obj)=> {
         return error
     }
 }
+
+export const deleteOne = async (id)=> {
+    try{
+        const user = await usersManager.deleteOne(id)
+        return user
+    }catch(error) {
+        return error
+    }
+}
