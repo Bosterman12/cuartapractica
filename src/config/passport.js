@@ -104,8 +104,9 @@ const initializePassport = () => {
             callbackURL: 'http://localhost:4000/user/google',
           },
          async (accessToken, refreshToken, profile, done) =>{
-          console.log(profile);
+          //console.log(profile);
           const {given_name, family_name, email} = profile._json
+          //done(null, false)
           try{
             const userDB = await userModel.findOne({email})
             
@@ -120,7 +121,7 @@ const initializePassport = () => {
             }
             const newUserDB = await userModel.create(user)
             done(null, newUserDB)
-          }catch(error){
+          } catch(error){
             done(error)
           }
          } 

@@ -3,6 +3,8 @@ import { generateErrorAddProduct, generateErrorAddProductToCart } from "../error
 import EErrors from "../errors/enum.js";
 import CustomError from "../errors/customError.js";
 export const findAllProd = async (req,res) => {
+    const user = req.session.user
+            console.log(user)
     try{
         const products = await findAllProducts()
             
@@ -10,6 +12,7 @@ export const findAllProd = async (req,res) => {
                 //products: products.docs,
                 products : products,
                 user: req.session.user
+                
                 
                 
                

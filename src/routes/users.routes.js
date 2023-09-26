@@ -5,6 +5,7 @@ import { findOneUser, findAllUsers, createOneUser, updateOneUser, deleteOneUser,
 import { upload, uploadProfile, uploadDocument} from "../controllers/multer.controller.js";
 import multer from "multer";
 import appyPolicy, { applyPolicy } from '../middleware/role.middleware.js'
+import { testLogin } from "../controllers/session.controller.js";
 
 const userRouter = Router()
 
@@ -30,14 +31,14 @@ userRouter.get(
 
   userRouter.get(
     '/googleSignup',
-    passport.authenticate('googleStrategy', { scope: ['profile'] })
+    passport.authenticate('googleStrategy', { scope: ['profile', 'email'] }, testLogin )
   ) 
 
   userRouter.get('/google', 
   passport.authenticate('googleStrategy', { failureRedirect: '/session/login' }),
-  function(req, res) {
+  (req, res) => {
     // Successful authentication, redirect home.
-    res.redirect('../api/product');
+    res.redirect('/api/product');
   })
 
 userRouter.get('/',applyPolicy(['admin']), findAllUsers)
