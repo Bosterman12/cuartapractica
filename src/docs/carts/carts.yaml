@@ -1,5 +1,4 @@
 paths:
-
   /api/cart:
     get:
       summary: Obtener todos los carritos de la base de datos
@@ -11,7 +10,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/cartsResponse'
+                $ref: '#components/schemas/carts'
         "500":
           description: Si hubo un error al momento de la consulta
 
@@ -22,35 +21,151 @@ paths:
       responses:
         "200":
           description: Si la creacion del carrito es satisfactoria
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/cartsResponse'
+         
         "500":
           description: Si hubo un error al momento de la consulta
+  /api/cart/{cartID}:
+    get:
+      summary: Obtiene un carrito de la base de datos
+      tags:
+        - carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID ID to fetch
+          schemas:
+            type: string  
+      responses:
+        "200":
+          description: Retorna la id del carrito y su array de productos
+        "500":
+          description: Retorna carrito no encontrado
+    delete:
+      summary: esta acción vacía el carrito pero no renderiza el home en swagger
+      tags:
+        - carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID ID to fetch
+          schemas:
+            type: string    
+      responses:
+        "200":
+          description: deja el carrito vacío
+        "500":
+          description: no se pudo vaciar el carrito
+  /api/cart/{cartID}/product/{productID}:
+    post:
+      summary: Agrega productos al carrito
+      tags:
+        - carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/productQuantity'            
+      responses:
+        "200":
+          description: retorna producto agregado al carrito
+        "500":
+          description: retorna que el producto no pudo ser agregado
+    put:
+      summary: Modifica la cantidad de un determinado producto en el carrito
+      tags:
+        - carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string  
+        
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/productQuantity'       
+      responses:
+        "200":
+          description: retorna producto actualizado 
+        "500":
+          description: retorna que no se pudo actualizar  
+    delete:
+      summary: elimina un producto del carrito
+      tags:
+        - carts
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+        - name: productID
+          in: path
+          required: true
+          description: productID to fetch
+          schemas:
+            type: string   
+      responses:
+        "200":
+          description: retorna producto eliminado
+        "500":
+          description: retorna que no se pudo eliminar el producto   
+
 components:
   schemas:
-    cart:
-      type: Object
+    Carts:
+      type: object 
       properties:
-        _id:
-          type: ObjectId
-          description: ID autoincremental MongoDB
-        title:
-          type: string
-          description: carritos
-        description:
-          type: string
-          description: descripcion
-    cartsResponse:
-      type: Object
-      properties: 
-        status:
-          type: string
-          enum: [success, error]
-          description: formas de respuesta
-        payload:
+        id:     
+          type: objectId
+          description: Mongo Id  
+        product:
           type: array
-          description: array de carritos
-          item:
-            $ref: '#components/schemas/cart'
+          items:
+            type: object
+            properties:
+              id_prod:
+                type: string
+              cant:
+                type: number
+      example:
+          id: objectsId(12589)
+          product:
+              id_prod: ref569852 
+              cant: 3
+  requestsBodies:
+    productQuantity:
+      type: object 
+      properties:  
+        title: 
+          type: number
+          description: Product quantity
+      example:
+        quantity: 4

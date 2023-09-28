@@ -1,0 +1,75 @@
+paths:
+  /api/order:
+    get:
+      summary: Obtener todas las compras de la base de datos
+      tags: 
+        - orders
+      responses:
+        "200":
+          description: Si la consulta de ordenes es satisfactoria
+          
+        "500":
+          description: Si hubo un error al momento de la consulta
+
+   
+  /api/order/{orderID}:
+    get:
+      summary: Obtiene una orden de la base de datos
+      tags:
+        - orders
+      parameters:
+        - name: orderID
+          in: path  
+          required: true
+          description: orderID ID to fetch
+          schemas:
+            type: string  
+      responses:
+        "200":
+          description: Retorna la id de la orden y sus datos
+         
+        "500":
+          description: Retorna orden no encontrada
+    
+  /api/order/{cartID}/purchase:
+    post:
+      summary: genera la orden a partir del carrito y el usuario
+      tags:
+        - orders
+      parameters:
+        - name: cartID
+          in: path  
+          required: true
+          description: cartID to fetch
+          schemas:
+            type: string
+       
+        
+      responses:
+        "200":
+          description: genera la orden de compra
+        "500":
+          description: no se pudo generar la orden de compra
+    
+
+components:
+  schemas:
+    Orders:
+      type: object 
+      properties:
+        id:     
+          type: objectId
+          description: Mongo Id  
+        code:
+          type: string
+        amount:
+          type: number
+        purchaser:
+          type: string
+        pucharse_datetime :
+          type: Date 
+      
+  requestsBodies:
+    cartID:
+      type: string
+      

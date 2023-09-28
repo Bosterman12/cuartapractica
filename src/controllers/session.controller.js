@@ -53,21 +53,7 @@ export const testLogin =  async (req, res, next) => {
    
    
    
-    /*const {email, password} = req.body
-    try{
-        if(email == "a@a.com" && password == "9012"){
-            req.session.login= true,
-            res.status(200).json({message: "Usuario logueado"})
-
-        }else{
-            res.status(401).json({message: "Usuario no logueado"})
-            
-        }
-
-    }catch(error) {
-        res.status(500).json({message: error.message})
-
-    }*/
+    
 }
 
 export const destroySession = async (req, res, next) => {

@@ -1,73 +1,180 @@
 paths:
-
-  /api/product:
+  /api/product/:
     get:
-      summary: Obtener todos los productos de la base de datos
-      tags: 
-        - products
+      summary: Obtener todos los productos existentes
+      tags:
+        - Products
       responses:
         "200":
-          description: Si la consulta a los productos es satisfactoria
+          description: retorna todos los productos
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/productsResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/products'   
         "500":
-          description: Si hubo un error al momento de la consulta
-
+          description: retorna si no se pudo realizar la consulta
     post:
-      summary: crear un producto en  la base de datos
-      tags: 
-        - products
+      summary: Creaar un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/products'   
       responses:
-        "200":
-          description: Si la creacion de un producto es satisfactoria
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/productsResponse'
+        "200": 
+          description: retorna si el producto fue creado exitosamente
         "500":
-          description: Si hubo un error al momento de la consulta
-
-  /api/product/{productId}:
+          description: retorna si hubo un error en la creación del producto
+  /api/product/{productID}:  
     get:
-      summary: Obtener un producto de la base de datos
-      tags: 
-        - products
+      summary: Obtener unicamente un producto solicitado
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string
       responses:
         "200":
-          description: Si la consulta al producto es satisfactoria
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/productsResponse'
+          description: retorna el producto solicitado
         "500":
-          description: Si hubo un error al momento de la consulta
-
+          description: retorna que el producto no fue encontrado
+    put:
+      summary: Realiza una modificación en un producto existente
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/products'        
+      responses:
+        "200":
+          description: retorna el producto modificado  
+        "500":
+          description: retorna que la modificación no pudo realizarse
+    delete:
+      summary: Elimina un producto de la base de datos
+      tags:
+        - Products
+      parameters:
+        - name: productID
+          in: path  
+          required: true
+          description: Product ID to fetch
+          schemas:
+            type: string  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/requestsBodies/products' 
+      
+      responses:
+        "200":
+          description: Retorna que el producto ha sido eliminado
+        "500":
+          description: Retorna que el producto no pudo ser eliminado
 components:
   schemas:
-    product:
-      type: Object
+    products:
+      type: object 
       properties:
-        _id:
-          type: ObjectId
-          description: ID autoincremental MongoDB
-        title:
+        id:     
+          type: objectId
+          description: Mongo Id  
+        title: 
           type: string
-          description: productos
+          description: Product title
         description:
           type: string
-          description: descripcion
-    productsResponse:
-      type: Object
-      properties: 
+          description: Product description
+        price: 
+          type: number
+          description: Product price
+        tumbnail: 
+          type: array de imagenes
+          description: Product tumbnail
         status:
+          type: boolean
+          description: Product status
+        category:
           type: string
-          enum: [success, error]
-          description: formas de respuesta
-        payload:
+          description: Product category
+        code: 
+          type: string
+          description: Product code
+        stock: 
+          type: number
+          description: Product stock
+        owner: 
+          type: string
+          description: Quien creó el producto   
+      example:
+          id: objectsId(123dewq314)
+          title: Product title
+          description: Product description
+          price: 10
+          tumbnail: [./images/]
+          status: true
+          category: products
+          code: products123
+          stock: 4
+          owner: owner_Id
+  requestsBodies:
+    products:
+      type: object 
+      properties:  
+        title: 
+          type: string
+          description: Product titles
+        description:
+          type: string
+          description: Product description
+        price: 
+          type: number
+          description: Product price
+        tumbnail: 
           type: array
-          description: array de productos
-          item:
-            $ref: '#components/schemas/product'
-
+          description: Product tumbnail
+        category:
+          type: string
+          description: Product category
+        code: 
+          type: string
+          description: Product code
+        stock:
+          type: number
+          description: Product stock
+        owner: 
+          type: string
+          description: Quien creo el producto
+        
+      example:
+        title: "producto"
+        description: "prueba"
+        code: "pr"
+        category: "f"
+        price: 200
+        stock: 19
+        status: true
+        owner: "64d9a8c66c73832a4dbe7cb8"
+        tumbnail: []
+        

@@ -1,5 +1,7 @@
 tags:
-  - name: products 
+  - name: Products 
     description: productos
   - name: carts
     description: carritos
+  - name: orders
+    description: ordenes

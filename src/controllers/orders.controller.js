@@ -40,11 +40,7 @@ export const findOneorder = async (req,res) => {
     }
 }
 
-/*export const createOrder = async (req, res) => {
-    const order = await createOneOrder({} )
-    res.send("orden creada")
-    
-  }*/
+
 
  export const createOrder= async (req, res) => {
     
@@ -66,13 +62,7 @@ export const findOneorder = async (req,res) => {
         
         
        console.log(totalAmount)   }
-        /*const code = codeGenerator()
-        const amount = totalAmount
-        console.log(amount)
-        const purchaser = req.user.id  
-        if (!code || !amount || !purchaser) {
-            return res.status(400).json({ message: 'Data missing' })
-          }*/
+        
         try{   
             const user = req.session.user
             console.log(user)

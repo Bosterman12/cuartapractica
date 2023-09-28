@@ -1,10 +1,7 @@
 import dotenv from 'dotenv'
 import program from '../utils/commander.js'
 
-/*dotenv.config({
-    path: program.opts().mode === 'test' ? '.env.testing' : '.env'
-    
-})*/
+
 
 dotenv.config({
     path: program.opts().mode === 'test' ? '.env.testing' : program.opts().mode === 'dev' ? '.env'

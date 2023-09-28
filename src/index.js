@@ -1,5 +1,5 @@
 
-//import 'dotenv/config'
+
 import express from 'express'
 import productRouter from './routes/products.routes.js'
 import cartRouter from './routes/cart.routes.js'
@@ -44,14 +44,6 @@ import methodOverride from 'method-override'
 
 const app = express()
 const PORT = config.PORT
-/*const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'src/public/img')
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${file.originalname}`)
-    }
-}) */
 
 
 const swaggerOptions = {
@@ -72,10 +64,7 @@ const swaggerOptions = {
 
 const spec = swaggerJsdoc(swaggerOptions)
 
-//mongoose.connect(config.URL_MONGODB_ATLAS)
-//mongoose.connect("mongodb+srv://bandialejandro:Bocha101@cluster0.b47bksn.mongodb.net/?retryWrites=true&w=majority")
-//.then(() => console.log("DB is connected"))
-//.catch((error) => console.log("error en MongoDB Atlas:", error))
+
 
 // Express
 
@@ -117,26 +106,26 @@ app.use(methodOverride('_method'))
 console.log(__dirname)
 
 //Socket
-const io = new Server(server, {cors: {origin:"*"} })
+const io = new Server(server) //, {cors: {origin:"*"} })
 const mensajes = []
 
 io.on ('connection', (socket) => {
     console.log("Cliente conectado")
     socket.on("mensaje", info =>{
         console.log(info)
-        //mensajes.push(info)
-        //io.emit("mensajes", mensajes)
+        mensajes.push(info)
+        io.emit("mensajes", mensajes)
     })
     socket.on("nuevoProducto", (prod) => {
         console.log(prod)
     })
 })
 
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     req.io = io
      next()
 
-})
+})*/
 
 
 //cookies
@@ -178,7 +167,7 @@ app.use(session({
     //cookie: {maxAge: 60000}
 }))
 
-//await mongoose.connect(config.URL_MONGODB_ATLAS).then(() => console.log("MongoDB conectado"))
+
 
 //Passport
 initializePassport()
@@ -210,11 +199,7 @@ app.get('/session', (req, res) =>{
 
 
 
-/*app.post('/upload', upload.single('product'), (req, res) => {
-    console.log(req.body)
-    console.log(req.file)
-    res.send("imagen subida")
-})*/
+
 
 app.use('/api/message', messagesRouter)
 app.use('/api/product', productRouter)

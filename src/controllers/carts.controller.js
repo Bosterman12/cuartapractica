@@ -23,50 +23,7 @@ export const findCarts = async (req,res) => {
     }
 }
 
-/*export const findOneCart = async (req,res) => {
 
-    const cid   = req.params.cid
-    const cart  = await findOneCartByid({_id : cid})
-   // console.log(cart)
-   const user = req.session.user
-        const products = cart.products
-       // console.log(products)
-      for (var i = 0; i < products.length; i++) {
-        var objeto = products[i];
-        //console.log(objeto); // Haz lo que desees con cada objeto
-        
-        //console.log(id_prod)
-        const id_prod =objeto.id_prod
-      const productData = await findOneProductByid({ _id : id_prod})
-      console.log(productData)
-      
-      }
-      
-       
-    if(cart) {
-    
-           try{ 
-           // res.status(200).json({message: "cart found", cart:id })
-            res.render('cart',{
-             
-             //product : product
-              first_name: user.first_name,
-              email: user.email,
-              role: user.role,
-              cart: user.cart,
-              products : products,
-              description : productData
-             
-            }
-              )}   catch(error) {
-                res.status(500).json({error})
-            }
-
-        }else{
-            res.status(400).json({message: "no cart"})
-        }
-    
- }*/
 
  export const findOneCart = async (req, res) => {
   try {
@@ -158,93 +115,7 @@ export const createCart = async (req, res) => {
     
   }
 
- /* export const updateCart = async (req,res, next) => {
-    const cid = req.params.cid
-    console.log(cid)
-    const pid = req.params.pid
-    const {quantity} = req.body
-    const cart = await findOneCartByid({_id: cid})
-    const product = await findOneProductByid({_id: pid})
-    //console.log(product)
-
-    if ( quantity > product.stock) {
-      /* CustomError.createError({
-          name: 'Product creation error',
-          cause: generateErrorAddProductToCart({
-            product,
-          }),
-          message: 'Error adding product to cart',
-          code: EErrors.INVALID_ARGUMENT,
-        })*/
-       /* res.status(500).send('producto sin stock')
-        }else{
-          try {
-            const productsList = cart.products
-            const productUpdate = productsList.findIndex((prod) => prod.id_prod == pid)
-          
-            if(productUpdate === -1) {
-              const addProductCart = {
-                id_prod: pid,
-                cant: quantity,
-              
-              }
-              
-              cart.products.push(addProductCart)
-              
-             
-
-              if(req.user.role === 'premium' && req.user.id === product.owner) {
-                res.status(401).json({message: 'Ud no puede comprar su propio producto'})
-              }else{
-                
-                await updateOneCart({_id: cid}, cart)
-                const newStock = product.stock -= quantity
-                //console.log(newStock)
-               // product.stock.push(newStock)
-                await updateOneProduct ({_id: pid}, {stock : newStock})
-               //res.status(200).send('Producto agregado al carrito')
-               const user = req.session.user
-  
-  
-               res.render('productAdded', {
-                id : user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                gender: user.gender,
-                email: user.email,
-                role: user.role,
-                cart: user.cart,
-                last_connection : new Date()
-               })
-              
-              
-            }   } } catch (err) {
-              console.log(err)
-            }  }  }*/
-         
-  
-      /*if ( !pid || !cid ||!quantity||!owner ) {
-                  CustomError.createError({
-                    name: 'Product creation error',
-                    cause: generateErrorAddProductToCart({
-                      pid,
-                      quantity
-                    }),
-                    message: 'Error adding product to cart',
-                    code: EErrors.INVALID_ARGUMENT,
-                  })
-                }*/
-          
-          
-      
-    
-
-
-            
-
-            
-            //console.log(cart)
-            //console.log(addProductCart)
+ 
 
             export const updateCart = async (req, res, next) => {
               try {

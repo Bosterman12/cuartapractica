@@ -2,19 +2,7 @@ import winston, { Logger } from 'winston';
 import config from '../config/config.js';
 
 
-/*const logger = winston.createLogger({
-    transports : [
-        new winston.transports.Console ({level : "http"}),
-        new winston.transports.File({filename: "./error.log", level : "warn"})
-    ]
-})
 
-export const addLogger = (req, res, next) => {
-    req.logger = logger;
-    req.logger.http(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
-    next()
-
-}*/
 
 const levelOptions = {
     levels : {
@@ -69,13 +57,7 @@ export const prodLogger = winston.createLogger({
     ]
 })
 
-/*export const addLogger = (req, res, next) => {
-    req.logger =  devLogger 
-    
-    req.logger.fatal(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`)
-    next()
 
-}*/
 
 export const addLogger = (req, res, next) => {
     if(config.SECRET_KEY !== 'TEST'){
