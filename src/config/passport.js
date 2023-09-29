@@ -101,7 +101,7 @@ const initializePassport = () => {
           {
             clientID: config.GOOGLE_CLIENT_ID,
             clientSecret: config.GOOGLE_CLIENT_SECRET,
-            callbackURL: 'http://localhost:4000/user/google',
+            callbackURL: 'https://tienda-de-quesos-y-fiambres2.onrender.com/user/google',
           },
          async (accessToken, refreshToken, profile, done) =>{
           //console.log(profile);
