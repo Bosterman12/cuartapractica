@@ -34,6 +34,11 @@ usuario@vip.com
 password: 1234
 
 Deploy :
+para comenzar
+https://tienda-de-quesos-y-fiambres2.onrender.com/session/login
+
+para registrarse
+https://tienda-de-quesos-y-fiambres2.onrender.com/user/register
 
 los archivos.env se envían como zip con la entrega del proyecto
 
