@@ -33,6 +33,8 @@ Usuario premium
 usuario@vip.com
 password: 1234
 
+En el caso de loguearse con Google es necesario crear un carrito antes de empezar a comprar
+
 Deploy :
 para comenzar
 https://tienda-de-quesos-y-fiambres2.onrender.com/session/login
