@@ -72,7 +72,8 @@ const initializePassport = () => {
           {
             clientID: 'Iv1.98e5aaa5d252831a',
             clientSecret: '472b7d13196d38f26e5d22fe313e1addc60392ad',
-            callbackURL: 'http://localhost:4000/user/github',
+           
+            callbackURL: 'https://tienda-de-quesos-y-fiambres2.onrender.com/user/github',
           },
           async (accessToken, refreshToken, profile, done) => {
             const { name, email } = profile._json
